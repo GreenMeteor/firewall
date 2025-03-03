@@ -1,8 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use humhub\widgets\ActiveForm;
 use humhub\widgets\Button;
+use humhub\widgets\ActiveForm;
 use humhub\modules\firewall\models\FirewallRule;
 
 /**
