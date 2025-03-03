@@ -1,0 +1,9 @@
+{
+    "id": "firewall",
+    "name": "Firewall",
+    "description": "Firewall Core",
+    "keywords": [
+        "core"
+    ],
+    "version": "1.0"
+}
