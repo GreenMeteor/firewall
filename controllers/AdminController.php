@@ -120,6 +120,29 @@ class AdminController extends Controller
     }
 
     /**
+     * Clear all firewall logs
+     */
+    public function actionClearLogs()
+    {
+        if (Yii::$app->request->isPost) {
+            try {
+                $deleted = FirewallLog::deleteAll();
+
+                if ($deleted > 0) {
+                    $this->view->success(Yii::t('FirewallModule.base', '{count} firewall logs have been cleared', ['count' => $deleted]));
+                } else {
+                    $this->view->info(Yii::t('FirewallModule.base', 'No logs to clear'));
+                }
+            } catch (\Exception $e) {
+                Yii::error('Error clearing logs: ' . $e->getMessage());
+                $this->view->error(Yii::t('FirewallModule.base', 'Error clearing logs'));
+            }
+        }
+
+        return $this->redirect(['logs']);
+    }
+
+    /**
      * Configure firewall settings
      */
     public function actionSettings()
