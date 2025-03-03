@@ -4,11 +4,14 @@ use yii\helpers\Html;
 use humhub\widgets\Button;
 use yii\widgets\DetailView;
 use humhub\modules\ui\icon\widgets\Icon;
+use humhub\modules\firewall\assets\FirewallAssets;
 
 /**
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ActiveDataProvider
  */
+
+FirewallAssets::register($this);
 
 $this->title = Yii::t('FirewallModule.base', 'Firewall Rules');
 $this->params['breadcrumbs'][] = $this->title;
@@ -97,88 +100,3 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
     </div>
 </div>
-
-<style>
-/* Custom styling for DetailView without tables */
-.detail-view-custom {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 10px 15px;
-}
-
-.detail-item {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 8px 0;
-}
-
-.detail-item:last-child {
-    border-bottom: none;
-}
-
-.detail-item .label {
-    font-weight: 600;
-    color: #333;
-}
-
-.detail-item .value {
-    color: #666;
-}
-
-/* Toggle button styling */
-.detail-item .value .btn {
-    margin-left: 10px;
-    vertical-align: middle;
-}
-
-.detail-item .value .label {
-    vertical-align: middle;
-}
-
-/* Firewall rule card styling */
-.firewall-rule-card {
-    background: #fff;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.firewall-rule-header h4 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 700;
-    border-bottom: 2px solid #0070d1;
-    padding-bottom: 8px;
-    margin-bottom: 12px;
-}
-
-.firewall-rule-body {
-    flex-grow: 1;
-}
-
-.firewall-rule-footer {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 10px;
-    border-top: 1px solid #e0e0e0;
-}
-
-@media (max-width: 991px) {
-    .col-md-4 {
-        width: 50%;
-    }
-}
-
-@media (max-width: 767px) {
-    .col-md-4 {
-        width: 100%;
-    }
-}
-</style>
