@@ -1,8 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\grid\GridView;
 use humhub\widgets\Button;
 
 /**
@@ -19,19 +19,21 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Yii::t('FirewallModule.base', '<strong>Firewall</strong> access logs'); ?>
     </div>
     <div class="panel-body">
-        <p>
-            <?= Button::defaultType(Yii::t('FirewallModule.base', 'Back to Rules'))
-                ->link(['index'])
-                ->icon('arrow-left'); ?>
+        <?= Button::defaultType(Yii::t('FirewallModule.base', 'Back to Rules'))
+            ->link(['index'])
+            ->icon('arrow-left'); ?>
 
-            <?= Button::danger(Yii::t('FirewallModule.base', 'Clear Logs'))
-                ->action('ui.modal.confirm', \yii\helpers\Url::to(['clear-logs']), [
-                    'confirmText' => Yii::t('FirewallModule.base', 'Are you sure you want to clear all firewall logs? This action cannot be undone.'),
-                    'confirmTitle' => Yii::t('FirewallModule.base', '<strong>Confirm</strong> log deletion'),
-                    'buttonTrue' => Yii::t('FirewallModule.base', 'Clear Logs'),
-                    'buttonFalse' => Yii::t('FirewallModule.base', 'Cancel'),
-                ]); ?>
-        </p>
+        <?= Html::a(
+            Yii::t('FirewallModule.base', 'Clear Logs'),
+            ['clear-logs'],
+            [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'method' => 'post',
+                    'confirm' => Yii::t('FirewallModule.base', 'Are you sure you want to clear all firewall logs? This action cannot be undone.'),
+                ]
+            ]
+        ); ?>
 
         <?php Pjax::begin(); ?>
         <?= GridView::widget([
