@@ -1,9 +1,10 @@
 # Firewall Core Module for HumHub
 
-🚧 **Work in Progress** 🚧
+> [!IMPORTANT]
+> 🚧 **Work in Progress** 🚧
 
 ## Overview
-The **Firewall** module for HumHub enhances security by providing advanced access control mechanisms. It allows administrators to define rules for restricting or allowing access to the platform based on various conditions.
+The **Firewall** core module for HumHub enhances security by providing advanced access control mechanisms. It allows administrators to define rules for restricting or allowing access to the platform based on various conditions.
 
 ## Features
 - 🔥 **IP Whitelisting & Blacklisting** – Restrict access based on IP addresses using CIDR notation, IP ranges, or wildcards.
@@ -49,6 +50,3 @@ Once installed, navigate to the **Firewall** in the admin panel to set up your a
 - [ ] Add support for country-based blocking.
 - [ ] Implement email and notifications for blocked attempts.
 - [ ] Enhance UI for easier rule management.
-
----
-💡 *This core module is currently under active development. Features and functionality may change as improvements are made.*
