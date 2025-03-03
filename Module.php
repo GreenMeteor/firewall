@@ -3,17 +3,16 @@
 namespace humhub\modules\firewall;
 
 use Yii;
-use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\components\Module as BaseModule;
 use humhub\modules\firewall\models\FirewallRule;
-use humhub\modules\space\models\Space;
-use humhub\modules\user\models\User;
+use humhub\modules\firewall\components\FirewallManager;
 
 /**
  * Firewall Module
  *
  * Provides IP-based firewall functionality for HumHub installations
  */
-class Module extends \humhub\components\Module
+class Module extends BaseModule
 {
     /**
      * @inheritdoc
@@ -38,25 +37,36 @@ class Module extends \humhub\components\Module
     /**
      * @var string The view to render when access is denied
      */
-    public $denyView = '@firewall/views/deny';
+    public $denyView = '@firewall/views/deny/index';
 
     /**
      * @var array List of route patterns that should be excluded from firewall checks
      */
     public $excludedRoutes = [
-        'admin/*', // Don't block admin routes to avoid lockouts
-        'firewall/*' // Don't block the firewall module itself
+        'admin/*',
+        'firewall/*'
+    ];
+
+    /**
+     * @var array List of routes that should be protected by the firewall
+     */
+    public $protectedRoutes = [
+        'dashboard',
+        'user/auth/login',
     ];
 
     public function init()
     {
         parent::init();
 
-        // Register the firewall manager component if it's not already set
         if (!Yii::$app->has('manager')) {
             Yii::$app->set('manager', [
-                'class' => \humhub\modules\firewall\components\FirewallManager::class,
+                'class' => FirewallManager::class,
             ]);
+        }
+
+        if ($this->enableFirewall) {
+            Yii::$app->on(\yii\web\Application::EVENT_BEFORE_REQUEST, [$this, 'checkFirewall']);
         }
     }
 
@@ -73,7 +83,6 @@ class Module extends \humhub\components\Module
      */
     public function disable()
     {
-        // This is a core module and cannot be disabled
         return false;
     }
 
@@ -108,7 +117,7 @@ class Module extends \humhub\components\Module
         }
 
         // Check if current route should be excluded
-        $currentRoute = Yii::$app->controller ? Yii::$app->controller->route : null;
+        $currentRoute = $this->getCurrentRoute();
         if ($currentRoute !== null) {
             foreach ($this->excludedRoutes as $excludedRoute) {
                 if (fnmatch($excludedRoute, $currentRoute)) {
@@ -118,8 +127,85 @@ class Module extends \humhub\components\Module
         }
 
         // Get firewall manager component
-        $firewallManager = Yii::$app->getModule('firewall')->get('manager');
-        return $firewallManager->checkAccess($ip);
+        $firewallManager = Yii::$app->get('manager');
+        if (!$firewallManager) {
+            Yii::error("Firewall manager component not found", 'firewall');
+            return true;
+        }
+        
+        $result = $firewallManager->checkAccess($ip);
+
+        return $result;
+    }
+
+    /**
+     * Gets the current route in a reliable way
+     * 
+     * @return string|null The current route or null if not available
+     */
+    protected function getCurrentRoute()
+    {
+        if (Yii::$app->controller) {
+            return Yii::$app->controller->route;
+        }
+        
+        return Yii::$app->requestedRoute;
+    }
+
+    /**
+     * Event handler for checking firewall rules
+     */
+    public function checkFirewall()
+    {
+        if (Yii::$app instanceof \yii\console\Application) {
+            return;
+        }
+
+        $ip = Yii::$app->request->userIP;
+
+        $currentRoute = $this->getCurrentRoute();
+
+        if ($currentRoute !== null) {
+            foreach ($this->excludedRoutes as $excludedRoute) {
+                if (fnmatch($excludedRoute, $currentRoute)) {
+                    return;
+                }
+            }
+        }
+
+        $isProtectedRoute = false;
+        if ($currentRoute !== null) {
+            foreach ($this->protectedRoutes as $protectedRoute) {
+                if (fnmatch($protectedRoute, $currentRoute)) {
+                    $isProtectedRoute = true;
+                    break;
+                }
+            }
+        }
+
+        if (!$isProtectedRoute) {
+            return;
+        }
+
+        $firewallManager = Yii::$app->get('manager');
+        if (!$firewallManager) {
+            Yii::error("Firewall manager not found", 'firewall');
+            return;
+        }
+
+        $allowed = $firewallManager->checkAccess($ip);
+
+        if (!$allowed) {
+            Yii::$app->response->statusCode = 403;
+            
+            Yii::$app->response->content = Yii::$app->view->render($this->denyView, [
+                'ip' => $ip,
+                'route' => $currentRoute
+            ]);
+            
+            Yii::$app->response->send();
+            Yii::$app->end();
+        }
     }
 
     /**
