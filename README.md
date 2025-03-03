@@ -40,7 +40,7 @@ This model logs all access attempts for monitoring purposes.
 
 ## Installation
 1. Download or clone the repository into your HumHub `protected/humhub/modules` directory.
-2. Enable the module via the HumHub administration panel.
+2. Run migrations for the module to properly work as it is enabled by default.
 3. Configure your firewall rules in the module settings.
 
 ## Usage
