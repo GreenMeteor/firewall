@@ -1,8 +1,9 @@
 <?php
 
-use yii\widgets\DetailView;
-use humhub\widgets\Button;
 use yii\helpers\Html;
+use humhub\widgets\Button;
+use yii\widgets\DetailView;
+use humhub\modules\ui\icon\widgets\Icon;
 
 /**
  * @var $this yii\web\View
@@ -18,9 +19,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Yii::t('FirewallModule.base', '<strong>Manage</strong> Firewall Rules'); ?>
     </div>
     <div class="panel-body">
-        <?= Button::success(Yii::t('FirewallModule.base', 'Create Rule'))
-            ->link(['create'])
-            ->icon('plus'); ?>
+        <?= Html::a(Icon::get('plus') . ' '.  Yii::t('FirewallModule.base', 'Create Rule'), 'create', [
+            'class' => 'btn btn-success',
+            'data-toggle' => 'modal',
+            'data-target' => '#globalModal',
+        ]) ?>
 
         <?= Button::primary(Yii::t('FirewallModule.base', 'Settings'))
             ->link(['settings'])
@@ -81,10 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
 
                             <div class="firewall-rule-footer">
-                                <?= Button::primary(Yii::t('FirewallModule.base', 'Update'))
-                                    ->link(['update', 'id' => $model->id])
-                                    ->icon('pencil'); ?>
-
+                                <?= Html::a(Icon::get('pencil') . ' '.  Yii::t('FirewallModule.base', 'Edit'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary', 'data-toggle' => 'modal', 'data-target' => '#globalModal']) ?>
                                 <?= Button::danger(Yii::t('FirewallModule.base', 'Delete'))
                                     ->link(['delete', 'id' => $model->id])
                                     ->icon('trash')
