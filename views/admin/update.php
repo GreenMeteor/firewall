@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use humhub\widgets\Button;
+use humhub\widgets\ModalDialog;
 
 /**
  * @var $this yii\web\View
@@ -12,14 +12,11 @@ $this->title = Yii::t('FirewallModule.base', 'Update Firewall Rule: {ip}', ['ip'
 $this->params['breadcrumbs'][] = ['label' => Yii::t('FirewallModule.base', 'Firewall Rules'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('FirewallModule.base', 'Update');
+
 ?>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <?= Yii::t('FirewallModule.base', '<strong>Update</strong> firewall rule'); ?>
+
+<?php ModalDialog::begin(['header' => $this->title]); ?>
+    <div class="modal-body">
+        <?= $this->render('_form', ['model' => $model]) ?>
     </div>
-    <div class="panel-body">
-        <?= $this->render('_form', [
-            'model' => $model,
-        ]); ?>
-    </div>
-</div>
+<?php ModalDialog::end(); ?>

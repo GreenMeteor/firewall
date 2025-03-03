@@ -5,9 +5,9 @@ namespace humhub\modules\firewall\controllers;
 use Yii;
 use yii\web\HttpException;
 use yii\data\ActiveDataProvider;
+use humhub\modules\firewall\models\FirewallLog;
 use humhub\modules\admin\components\Controller;
 use humhub\modules\firewall\models\FirewallRule;
-use humhub\modules\firewall\models\FirewallLog;
 use humhub\modules\firewall\models\forms\FirewallSettingsForm;
 
 /**
@@ -52,7 +52,7 @@ class AdminController extends Controller
             return $this->redirect(['index', 'id' => $model->id]);
         }
 
-        return $this->render('create', [
+        return $this->renderAjax('create', [
             'model' => $model,
         ]);
     }
@@ -69,7 +69,7 @@ class AdminController extends Controller
             return $this->redirect(['index', 'id' => $model->id]);
         }
 
-        return $this->render('update', [
+        return $this->renderAjax('update', [
             'model' => $model,
         ]);
     }
@@ -93,9 +93,14 @@ class AdminController extends Controller
     {
         $model = $this->findModel($id);
         $model->status = !$model->status;
-        $model->save();
+        
+        if ($model->save()) {
+            $this->view->success(Yii::t('FirewallModule.base', 'Firewall rule status toggled successfully'));
+        } else {
+            $this->view->error(Yii::t('FirewallModule.base', 'Failed to toggle rule status'));
+        }
 
-        return $this->redirect(['index', 'id' => $model->id]);
+        return $this->redirect(['index']);
     }
 
     /**
