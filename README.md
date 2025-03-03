@@ -47,6 +47,6 @@ This model logs all access attempts for monitoring purposes.
 Once installed, navigate to the **Firewall** in the admin panel to set up your access control rules. You can define allowed or blocked IP ranges, enforce rate limits, and customize user-based restrictions.
 
 ## Roadmap
-- [ ] Add support for country-based blocking.
+- [x] Add support for country-based blocking.
 - [ ] Implement email and notifications for blocked attempts.
-- [ ] Enhance UI for easier rule management.
+- [x] Enhance UI for easier rule management.
