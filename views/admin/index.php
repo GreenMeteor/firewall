@@ -61,7 +61,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                         [
                                             'attribute' => 'status',
                                             'format' => 'raw',
-                                            'value' => $model->getStatusLabel(),
+                                            'value' => function($model) {
+                                                $statusLabel = $model->getStatusLabel();
+                                                $toggleButton = Html::a(
+                                                    '<i class="fa fa-toggle-' . ($model->status ? 'on' : 'off') . '"></i>',
+                                                    ['toggle-status', 'id' => $model->id],
+                                                    [
+                                                        'class' => 'btn btn-xs btn-' . ($model->status ? 'primary' : 'default'),
+                                                        'title' => Yii::t('FirewallModule.base', 'Toggle Status'),
+                                                        'data-pjax' => '0',
+                                                    ]
+                                                );
+                                                return $statusLabel . ' ' . $toggleButton;
+                                            },
                                         ],
                                         'created_at:datetime',
                                     ],
@@ -113,6 +125,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 .detail-item .value {
     color: #666;
+}
+
+/* Toggle button styling */
+.detail-item .value .btn {
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.detail-item .value .label {
+    vertical-align: middle;
 }
 
 /* Firewall rule card styling */
