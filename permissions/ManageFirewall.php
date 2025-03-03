@@ -2,14 +2,16 @@
 
 namespace humhub\modules\firewall\permissions;
 
-use humhub\libs\BasePermission;
-use humhub\modules\admin\permissions\ManageModules;
 use Yii;
+use humhub\modules\user\models\User;
+use humhub\modules\user\models\Group;
+use humhub\modules\admin\permissions\ManageModules;
+use humhub\modules\admin\components\BaseAdminPermission;
 
 /**
  * ManageFirewall permission allows admins to configure firewall rules
  */
-class ManageFirewall extends BasePermission
+class ManageFirewall extends BaseAdminPermission
 {
     /**
      * @inheritdoc
@@ -34,7 +36,26 @@ class ManageFirewall extends BasePermission
     /**
      * @inheritdoc
      */
-    protected $defaultState = self::STATE_ALLOW;
+    public function getDefaultState($userId, $contentContainer = null)
+    {
+        $user = User::findOne(['id' => $userId]);
+
+        if ($user !== null && Group::getAdminGroup()->isMember($user)) {
+            return self::STATE_ALLOW;
+        }
+
+        return self::STATE_DENY;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected $fixedGroups = [
+        User::USERGROUP_SELF,
+        User::USERGROUP_FRIEND,
+        User::USERGROUP_USER,
+        User::USERGROUP_GUEST
+    ];
 
     /**
      * @inheritdoc
