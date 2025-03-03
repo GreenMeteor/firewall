@@ -1,4 +1,4 @@
-# Firewall Module for HumHub
+# Firewall Core Module for HumHub
 
 🚧 **Work in Progress** 🚧
 
