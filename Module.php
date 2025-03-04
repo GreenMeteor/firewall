@@ -101,6 +101,16 @@ class Module extends BaseModule
     }
 
     /**
+     * Checks if the firewall is enabled
+     *
+     * @return bool whether the firewall is enabled
+     */
+    protected function isFirewallEnabled()
+    {
+        return Yii::$app->getModule('firewall')->settings->get('enabled', true);
+    }
+
+    /**
      * Checks if the current IP is allowed according to firewall rules
      * 
      * @param string $ip IP address to check (defaults to current user IP)
@@ -108,7 +118,7 @@ class Module extends BaseModule
      */
     public function checkAccess($ip = null)
     {
-        if (!$this->enableFirewall) {
+        if (!$this->isFirewallEnabled()) {
             return true;
         }
 
@@ -116,7 +126,6 @@ class Module extends BaseModule
             $ip = Yii::$app->request->userIP;
         }
 
-        // Check if current route should be excluded
         $currentRoute = $this->getCurrentRoute();
         if ($currentRoute !== null) {
             foreach ($this->excludedRoutes as $excludedRoute) {
@@ -126,16 +135,13 @@ class Module extends BaseModule
             }
         }
 
-        // Get firewall manager component
         $firewallManager = Yii::$app->get('manager');
         if (!$firewallManager) {
             Yii::error("Firewall manager component not found", 'firewall');
             return true;
         }
-        
-        $result = $firewallManager->checkAccess($ip);
 
-        return $result;
+        return $firewallManager->checkAccess($ip);
     }
 
     /**
