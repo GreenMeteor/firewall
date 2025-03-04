@@ -24,5 +24,6 @@ class FirewallAssets extends AssetBundle
 
     public $css = [
         'css/humhub-firewall.css',
+        'css/humhub-firewalllogs.css'
     ];
 }
