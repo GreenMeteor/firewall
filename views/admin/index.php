@@ -22,19 +22,21 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Yii::t('FirewallModule.base', '<strong>Manage</strong> Firewall Rules'); ?>
     </div>
     <div class="panel-body">
-        <?= Html::a(Icon::get('plus') . ' '.  Yii::t('FirewallModule.base', 'Create Rule'), 'create', [
+        <?= Html::a(Icon::get('plus') . ' '.  Yii::t('FirewallModule.base', 'Create Rule'), ['create'], [
             'class' => 'btn btn-success',
             'data-toggle' => 'modal',
-            'data-target' => '#globalModal',
+            'data-target' => '#globalModal'
         ]) ?>
 
         <?= Button::primary(Yii::t('FirewallModule.base', 'Settings'))
             ->link(['settings'])
             ->icon('cogs'); ?>
 
-        <?= Button::danger(Yii::t('FirewallModule.base', 'Logs'))
-            ->link(['logs'])
-            ->icon('list'); ?>
+        <?= Html::a(Icon::get('list') . ' '.  Yii::t('FirewallModule.base', 'logs'), ['logs'], [
+            'class' => 'btn btn-danger',
+            'data-toggle' => 'modal',
+            'data-target' => '#globalModal'
+        ]) ?>
         <hr>
 
         <?php if ($dataProvider->getCount() == 0): ?>

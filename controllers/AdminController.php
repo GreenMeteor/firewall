@@ -16,15 +16,6 @@ use humhub\modules\firewall\models\forms\FirewallSettingsForm;
 class AdminController extends Controller
 {
     /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        $this->subLayout = '@admin/views/layouts/setting';
-        return parent::init();
-    }
-
-    /**
      * Show details of a single firewall rule
      */
     public function actionIndex()
@@ -108,13 +99,14 @@ class AdminController extends Controller
      */
     public function actionLogs()
     {
-        $dataProvider = new \yii\data\ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider([
             'query' => FirewallLog::find(),
-            'pagination' => ['pageSize' => 50],
-            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]],
+            'pagination' => [
+                'pageSize' => 20,
+            ],
         ]);
 
-        return $this->render('logs', [
+        return $this->renderAjax('logs', [
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -139,7 +131,7 @@ class AdminController extends Controller
             }
         }
 
-        return $this->redirect(['logs']);
+        return $this->redirect(['index']);
     }
 
     /**
