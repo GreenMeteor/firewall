@@ -1,0 +1,71 @@
+.detail-view-custom {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 15px;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 8px 0;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item .label {
+    font-weight: 600;
+    color: #333;
+}
+
+.detail-item .value {
+    color: #666;
+}
+
+/* Firewall log card styling */
+.firewall-log-card {
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.firewall-log-header h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    border-bottom: 2px solid #0070d1;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+.firewall-log-body {
+    flex-grow: 1;
+}
+
+.firewall-log-footer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0;
+}
+
+@media (max-width: 991px) {
+    .col-md-4 {
+        width: 50%;
+    }
+}
+
+@media (max-width: 767px) {
+    .col-md-4 {
+        width: 100%;
+    }
+}
