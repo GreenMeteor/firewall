@@ -18,10 +18,12 @@ return [
     ],
     'urlManagerRules' => [
         'admin/firewall' => 'firewall/admin/index',
+        'admin/firewall/logs' => 'firewall/admin/logs',
         'admin/firewall/create' => 'firewall/admin/create',
         'admin/firewall/update' => 'firewall/admin/update',
         'admin/firewall/delete' => 'firewall/admin/delete',
         'admin/firewall/settings' => 'firewall/admin/settings',
-        'admin/firewall/logs' => 'firewall/admin/logs',
+        'admin/firewall/clear-logs' => 'firewall/admin/clear-logs',
+        'admin/firewall/toggle-status' => 'firewall/admin/toggle-status',
     ],
 ];
