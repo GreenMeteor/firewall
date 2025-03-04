@@ -16,4 +16,12 @@ return [
         ['class' => Application::class, 'event' => Application::EVENT_BEFORE_REQUEST, 'callback' => [Events::class, 'onBeforeRequest']],
         ['class' => CronController::class, 'event' => CronController::EVENT_ON_HOURLY_RUN, 'callback' => [Events::class, 'onHourlyCron']],
     ],
+    'urlManagerRules' => [
+        'admin/firewall' => 'firewall/admin/index',
+        'admin/firewall/create' => 'firewall/admin/create',
+        'admin/firewall/update' => 'firewall/admin/update',
+        'admin/firewall/delete' => 'firewall/admin/delete',
+        'admin/firewall/settings' => 'firewall/admin/settings',
+        'admin/firewall/logs' => 'firewall/admin/logs',
+    ],
 ];
