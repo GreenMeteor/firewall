@@ -1,8 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use humhub\widgets\Button;
 use humhub\widgets\ActiveForm;
+use humhub\widgets\ModalDialog;
 use humhub\modules\firewall\models\FirewallRule;
 
 /**
@@ -11,20 +11,10 @@ use humhub\modules\firewall\models\FirewallRule;
  */
 
 $this->title = Yii::t('FirewallModule.base', 'Firewall Settings');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('FirewallModule.base', 'Firewall Rules'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <?= Yii::t('FirewallModule.base', '<strong>Firewall</strong> settings'); ?>
-    </div>
-    <div class="panel-body">
-        <p>
-            <?= Button::defaultType(Yii::t('FirewallModule.base', 'Back to Rules'))
-                ->link(['index'])
-                ->icon('arrow-left'); ?>
-        </p>
 
+?>
+<?php ModalDialog::begin(['header' => $this->title]); ?>
+    <div class="modal-body">
         <div class="firewall-settings-form">
             <?php $form = ActiveForm::begin(); ?>
 
@@ -41,11 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'denyMessage')->textarea(['rows' => 3]); ?>
 
-            <div class="form-group">
+            <div class="model-footer">
                 <?= Html::submitButton(Yii::t('FirewallModule.base', 'Save'), ['class' => 'btn btn-primary']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>
         </div>
     </div>
-</div>
+<?php ModalDialog::end(); ?>

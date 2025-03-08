@@ -159,10 +159,10 @@ class AdminController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $this->view->success(Yii::t('FirewallModule.base', 'Settings saved successfully'));
-            return $this->redirect(['settings']);
+            return $this->redirect(['index']);
         }
 
-        return $this->render('settings', [
+        return $this->renderAjax('settings', [
             'model' => $model,
         ]);
     }
