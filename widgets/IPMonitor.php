@@ -37,7 +37,7 @@ class IPMonitor extends Widget
             'username' => $user->identity->username,
         ] : null;
 
-        return $this->render('accessing-ips', [
+        return $this->render('monitor', [
             'accessData' => $accessData,
             'loggedInData' => $loggedInData,
             'guestIps' => $guestIps,
