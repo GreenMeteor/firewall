@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use humhub\widgets\Button;
 use yii\widgets\DetailView;
 use humhub\modules\ui\icon\widgets\Icon;
+use humhub\modules\firewall\widgets\IPMonitor;
 use humhub\modules\firewall\assets\FirewallAssets;
 
 /**
@@ -32,12 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ->link(['settings'])
             ->icon('cogs'); ?>
 
-        <?= Html::a(Icon::get('list') . ' '.  Yii::t('FirewallModule.base', 'logs'), ['logs'], [
+        <?= Html::a(Icon::get('list') . ' '.  Yii::t('FirewallModule.base', 'Logs'), ['logs'], [
             'class' => 'btn btn-danger',
             'data-toggle' => 'modal',
             'data-target' => '#globalModal'
         ]) ?>
         <hr>
+
+        <?= IPMonitor::widget(); ?>
 
         <?php if ($dataProvider->getCount() == 0): ?>
             <div class="alert alert-info text-center">
