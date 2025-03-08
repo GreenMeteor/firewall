@@ -29,9 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'data-target' => '#globalModal'
         ]) ?>
 
-        <?= Button::primary(Yii::t('FirewallModule.base', 'Settings'))
-            ->link(['settings'])
-            ->icon('cogs'); ?>
+        <?= Html::a(Icon::get('cogs') . ' '.  Yii::t('FirewallModule.base', 'Settings'), ['settings'], [
+            'class' => 'btn btn-primary',
+            'data-toggle' => 'modal',
+            'data-target' => '#globalModal'
+        ]) ?>
 
         <?= Html::a(Icon::get('list') . ' '.  Yii::t('FirewallModule.base', 'Logs'), ['logs'], [
             'class' => 'btn btn-danger',
