@@ -5,6 +5,7 @@ namespace humhub\modules\firewall\controllers;
 use Yii;
 use yii\web\HttpException;
 use yii\data\ActiveDataProvider;
+use humhub\modules\firewall\widgets\IPMonitor;
 use humhub\modules\firewall\models\FirewallLog;
 use humhub\modules\admin\components\Controller;
 use humhub\modules\firewall\models\FirewallRule;
@@ -135,6 +136,21 @@ class AdminController extends Controller
     }
 
     /**
+     * Clear all IP records
+     */
+    public function actionClearIps()
+    {
+        if (!Yii::$app->user->isAdmin()) {
+            throw new ForbiddenHttpException('Access denied. Admin rights required.');
+        }
+
+        IPMonitor::clearAllIps();
+
+        $this->view->success('success', Yii::t('FirewallModule.base', 'IP log has been cleared successfully.'));
+        return $this->redirect(['/firewall/admin/index']);
+    }
+
+    /**
      * Configure firewall settings
      */
     public function actionSettings()
@@ -147,6 +163,30 @@ class AdminController extends Controller
         }
 
         return $this->render('settings', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Block a specific IP address
+     * 
+     * @param string $ip The IP address to block
+     */
+    public function actionBlockIp($ip = null)
+    {
+        $model = new FirewallRule();
+        $model->ip_range = $ip;
+        $model->action = FirewallRule::ACTION_DENY;
+        $model->status = true;
+        $model->description = Yii::t('FirewallModule.base', 'Manually blocked via admin interface');
+        $model->priority = 10;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->view->success(Yii::t('FirewallModule.base', 'IP address {ip} blocked successfully', ['ip' => $model->ip_range]));
+            return $this->redirect(['index']);
+        }
+
+        return $this->renderAjax('block-ip', [
             'model' => $model,
         ]);
     }
