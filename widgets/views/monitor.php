@@ -1,6 +1,7 @@
 <?php
 
 use humhub\libs\Html;
+use yii\helpers\TimeAgo;
 
 /** @var array $accessData */
 /** @var array|null $loggedInData */
@@ -18,10 +19,23 @@ use humhub\libs\Html;
                 <?= Yii::t('FirewallModule.base', '<strong>IP Address</strong>') ?>
                 <p><?= Html::encode($accessData['ip'], ENT_QUOTES, 'UTF-8') ?></p>
                 <?php if (!empty($guestIps)): ?>
-                    <?= Yii::t('FirewallModule.base', '<strong>Guest IPs</strong>') ?>
-                    <?php foreach ($guestIps as $guestIp): ?>
-                        <p><em><?= Yii::t('FirewallModule.base', 'Guest IP:') ?> <?= Html::encode($guestIp, ENT_QUOTES, 'UTF-8') ?></em></p>
-                    <?php endforeach; ?>
+                    <div class="guest-ips-container">
+                        <h5><?= Yii::t('FirewallModule.base', '<strong>Recent Guest IPs</strong>') ?></h5>
+                        <div class="guest-ips-list" style="max-height: 200px; overflow-y: auto;">
+                            <?php foreach ($guestIps as $guestIpData): ?>
+                                <div class="guest-ip-entry">
+                                    <small>
+                                        <?= Html::encode($guestIpData['ip'], ENT_QUOTES, 'UTF-8') ?>
+                                        <span class="text-muted">
+                                            (<?= Yii::t('FirewallModule.base', 'last seen {timeAgo}', [
+                                                'timeAgo' => Yii::$app->formatter->asRelativeTime($guestIpData['timestamp'])
+                                            ]) ?>)
+                                        </span>
+                                    </small>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
                 <?php endif; ?>
             </div>
             <div class="col-md-4">
