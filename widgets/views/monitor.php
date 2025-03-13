@@ -146,6 +146,9 @@ use humhub\modules\ui\icon\widgets\Icon;
                                                     'data-toggle' => 'modal',
                                                     'data-target' => '#globalModal'
                                                 ]); ?>
+                                                <?= Html::a(Icon::get('step-backward') . Yii::t('FirewallModule.base', 'Reset'), ['reset', 'ip' => $ipData['ip']], [
+                                                    'class' => 'btn btn-primary btn-xs',
+                                                ]); ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -197,6 +200,9 @@ use humhub\modules\ui\icon\widgets\Icon;
                                                     'class' => 'btn btn-danger btn-xs',
                                                     'data-toggle' => 'modal',
                                                     'data-target' => '#globalModal'
+                                                ]); ?>
+                                                <?= Html::a(Icon::get('step-backward') . Yii::t('FirewallModule.base', 'Reset'), ['reset', 'ip' => $ipData['ip']], [
+                                                    'class' => 'btn btn-primary btn-xs',
                                                 ]); ?>
                                             </td>
                                         </tr>
@@ -253,6 +259,9 @@ use humhub\modules\ui\icon\widgets\Icon;
                                                     'class' => 'btn btn-danger btn-xs',
                                                     'data-toggle' => 'modal',
                                                     'data-target' => '#globalModal'
+                                                ]); ?>
+                                                <?= Html::a(Icon::get('step-backward') . Yii::t('FirewallModule.base', 'Reset'), ['reset', 'ip' => $ipData['ip']], [
+                                                    'class' => 'btn btn-primary btn-xs',
                                                 ]); ?>
                                             </td>
                                         </tr>
