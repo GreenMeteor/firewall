@@ -159,10 +159,10 @@ class AdminController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $this->view->success(Yii::t('FirewallModule.base', 'Settings saved successfully'));
-            return $this->redirect(['settings']);
+            return $this->redirect(['index']);
         }
 
-        return $this->render('settings', [
+        return $this->renderAjax('settings', [
             'model' => $model,
         ]);
     }
@@ -189,6 +189,33 @@ class AdminController extends Controller
         return $this->renderAjax('block-ip', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Reset rate limits for IP addresses
+     * 
+     * @param string $ip Optional specific IP to reset, resets all if not specified
+     * @return \yii\web\Response
+     */
+    public function actionReset($ip = null)
+    {
+        if (!Yii::$app->user->isAdmin()) {
+            throw new \yii\web\ForbiddenHttpException(Yii::t('FirewallModule.base', 'Access denied. Admin rights required.'));
+        }
+
+        try {
+            if ($ip !== null) {
+                IPMonitor::resetRateLimit($ip);
+                $this->view->success(Yii::t('FirewallModule.base', 'Rate limit for IP {ip} has been reset successfully', ['ip' => $ip]));
+            } else {
+                IPMonitor::resetAllRateLimits();
+                $this->view->success(Yii::t('FirewallModule.base', 'All rate limits have been reset successfully'));
+            }
+        } catch (\Exception $e) {
+            $this->view->error(Yii::t('FirewallModule.base', 'Error resetting rate limits'));
+        }
+
+        return $this->redirect(['index']);
     }
 
     /**
