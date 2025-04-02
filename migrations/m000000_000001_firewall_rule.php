@@ -1,5 +1,7 @@
 <?php
+
 use humhub\components\Migration;
+
 /**
  * Creates the firewall_rule table
  */
@@ -19,31 +21,10 @@ class m000000_000001_firewall_rule extends Migration
             'updated_at' => $this->dateTime(),
             'updated_by' => $this->integer(),
         ]);
-        
+
         $this->createIndex('idx-firewall_rule-priority', 'firewall_rule', 'priority');
         $this->createIndex('idx-firewall_rule-status', 'firewall_rule', 'status');
-        
-        // Add foreign key for created_by and updated_by
-        $this->addForeignKey(
-            'fk-firewall_rule-created_by',
-            'firewall_rule',
-            'created_by',
-            '{{%user}}',
-            'id',
-            'SET NULL',
-            'CASCADE'
-        );
-        
-        $this->addForeignKey(
-            'fk-firewall_rule-updated_by',
-            'firewall_rule',
-            'updated_by',
-            '{{%user}}',
-            'id',
-            'SET NULL',
-            'CASCADE'
-        );
-        
+
         // Add some default rules
         $this->insert('firewall_rule', [
             'ip_range' => '127.0.0.1',
@@ -54,7 +35,7 @@ class m000000_000001_firewall_rule extends Migration
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);
-        
+
         $this->insert('firewall_rule', [
             'ip_range' => '::1',
             'action' => 'allow',
@@ -64,7 +45,7 @@ class m000000_000001_firewall_rule extends Migration
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);
-        
+
         $this->insert('firewall_rule', [
             'ip_range' => '192.168.0.0/16',
             'action' => 'allow',
