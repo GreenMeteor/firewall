@@ -16,7 +16,7 @@ class m000000_000002_firewall_log extends Migration
             'user_agent' => $this->text(),
             'created_at' => $this->dateTime(),
         ]);
-        
+
         $this->createIndex('idx-firewall_log-ip', 'firewall_log', 'ip');
         $this->createIndex('idx-firewall_log-created_at', 'firewall_log', 'created_at');
     }
