@@ -146,7 +146,7 @@ class AdminController extends Controller
 
         IPMonitor::clearAllIps();
 
-        $this->view->success('success', Yii::t('FirewallModule.base', 'IP log has been cleared successfully.'));
+        $this->view->success(Yii::t('FirewallModule.base', 'IP log has been cleared successfully.'));
         return $this->redirect(['/firewall/admin/index']);
     }
 
