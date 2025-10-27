@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use humhub\widgets\Button;
+use humhub\widgets\bootstrap\Button;
 use yii\widgets\DetailView;
 use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\firewall\widgets\IPMonitor;
@@ -18,27 +18,27 @@ $this->title = Yii::t('FirewallModule.base', 'Firewall Rules');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="panel panel-default">
+<div class="panel">
     <div class="panel-heading">
         <?= Yii::t('FirewallModule.base', '<strong>Manage</strong> Firewall Rules'); ?>
     </div>
     <div class="panel-body">
-        <?= Html::a(Icon::get('plus') . ' '.  Yii::t('FirewallModule.base', 'Create Rule'), ['create'], [
+        <?= Html::a(Icon::get('plus') . 'Create Rule', ['create'], [
             'class' => 'btn btn-success',
-            'data-toggle' => 'modal',
-            'data-target' => '#globalModal'
+            'data-bs-toggle' => 'modal',
+            'data-bs-target' => '#globalModal'
         ]) ?>
 
-        <?= Html::a(Icon::get('cogs') . ' '.  Yii::t('FirewallModule.base', 'Settings'), ['settings'], [
+        <?= Html::a(Icon::get('cogs') . 'Settings', ['settings'], [
             'class' => 'btn btn-primary',
-            'data-toggle' => 'modal',
-            'data-target' => '#globalModal'
+            'data-bs-toggle' => 'modal',
+            'data-bs-target' => '#globalModal'
         ]) ?>
 
-        <?= Html::a(Icon::get('list') . ' '.  Yii::t('FirewallModule.base', 'Logs'), ['logs'], [
+        <?= Html::a(Icon::get('list') . 'Logs', ['logs'], [
             'class' => 'btn btn-danger',
-            'data-toggle' => 'modal',
-            'data-target' => '#globalModal'
+            'data-bs-toggle' => 'modal',
+            'data-bs-target' => '#globalModal'
         ]) ?>
         <hr>
 
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="firewall-rule-header">
                                 <h4><?= Yii::t('FirewallModule.base', 'Firewall Rule #{id}', ['id' => $model->id]); ?></h4>
                             </div>
-                            
+
                             <div class="firewall-rule-body">
                                 <?= DetailView::widget([
                                     'model' => $model,
@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     '<i class="fa fa-toggle-' . ($model->status ? 'on' : 'off') . '"></i>',
                                                     ['toggle-status', 'id' => $model->id],
                                                     [
-                                                        'class' => 'btn btn-xs btn-' . ($model->status ? 'primary' : 'default'),
+                                                        'class' => 'btn btn-sm btn-' . ($model->status ? 'primary' : 'secondary'),
                                                         'title' => Yii::t('FirewallModule.base', 'Toggle Status'),
                                                         'data-pjax' => '0',
                                                     ]
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
 
                             <div class="firewall-rule-footer">
-                                <?= Html::a(Icon::get('pencil') . ' '.  Yii::t('FirewallModule.base', 'Edit'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary', 'data-toggle' => 'modal', 'data-target' => '#globalModal']) ?>
+                                <?= Html::a(Icon::get('pencil') . 'Edit', ['update', 'id' => $model->id], ['class' => 'btn btn-primary', 'data-bs-toggle' => 'modal', 'data-bs-target' => '#globalModal']) ?>
                                 <?= Button::danger(Yii::t('FirewallModule.base', 'Delete'))
                                     ->link(['delete', 'id' => $model->id])
                                     ->icon('trash')
