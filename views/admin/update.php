@@ -1,7 +1,6 @@
 <?php
 
-use yii\helpers\Html;
-use humhub\widgets\ModalDialog;
+use humhub\widgets\modal\Modal;
 
 /**
  * @var $this yii\web\View
@@ -15,8 +14,6 @@ $this->params['breadcrumbs'][] = Yii::t('FirewallModule.base', 'Update');
 
 ?>
 
-<?php ModalDialog::begin(['header' => $this->title]); ?>
-    <div class="modal-body">
-        <?= $this->render('_form', ['model' => $model]) ?>
-    </div>
-<?php ModalDialog::end(); ?>
+<?php Modal::beginDialog(['title' => $this->title]); ?>
+    <?= $this->render('_form', ['model' => $model]) ?>
+<?php Modal::endDialog(); ?>

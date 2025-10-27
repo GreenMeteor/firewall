@@ -1,8 +1,8 @@
 <?php
 
-use yii\helpers\Html;
-use humhub\widgets\ActiveForm;
-use humhub\widgets\ModalDialog;
+use humhub\widgets\form\ActiveForm;
+use humhub\widgets\modal\Modal;
+use humhub\widgets\modal\ModalButton;
 use humhub\modules\firewall\models\FirewallRule;
 
 /**
@@ -13,29 +13,24 @@ use humhub\modules\firewall\models\FirewallRule;
 $this->title = Yii::t('FirewallModule.base', 'Firewall Settings');
 
 ?>
-<?php ModalDialog::begin(['header' => $this->title]); ?>
-    <div class="modal-body">
-        <div class="firewall-settings-form">
-            <?php $form = ActiveForm::begin(); ?>
+<?php $form = Modal::beginFormDialog([
+    'title' => $this->title,
+    'footer' => ModalButton::cancel() . ' ' . ModalButton::save()->submit(),
+]); ?>
 
-            <?= $form->field($model, 'enabled')->checkbox(); ?>
+    <div class="firewall-settings-form">
+        <?= $form->field($model, 'enabled')->checkbox(); ?>
 
-            <?= $form->field($model, 'enableLogging')->checkbox(); ?>
+        <?= $form->field($model, 'enableLogging')->checkbox(); ?>
 
-            <?= $form->field($model, 'enableNotifications')->checkbox(); ?>
+        <?= $form->field($model, 'enableNotifications')->checkbox(); ?>
 
-            <?= $form->field($model, 'defaultAction')->dropDownList([
-                FirewallRule::ACTION_ALLOW => Yii::t('FirewallModule.base', 'Allow'),
-                FirewallRule::ACTION_DENY => Yii::t('FirewallModule.base', 'Deny'),
-            ])->hint(Yii::t('FirewallModule.base', 'Default action when no rule matches')); ?>
+        <?= $form->field($model, 'defaultAction')->dropDownList([
+            FirewallRule::ACTION_ALLOW => Yii::t('FirewallModule.base', 'Allow'),
+            FirewallRule::ACTION_DENY => Yii::t('FirewallModule.base', 'Deny'),
+        ])->hint(Yii::t('FirewallModule.base', 'Default action when no rule matches')); ?>
 
-            <?= $form->field($model, 'denyMessage')->textarea(['rows' => 3]); ?>
-
-            <div class="model-footer">
-                <?= Html::submitButton(Yii::t('FirewallModule.base', 'Save'), ['class' => 'btn btn-primary']) ?>
-            </div>
-
-            <?php ActiveForm::end(); ?>
-        </div>
+        <?= $form->field($model, 'denyMessage')->textarea(['rows' => 3]); ?>
     </div>
-<?php ModalDialog::end(); ?>
+
+<?php Modal::endFormDialog(); ?>

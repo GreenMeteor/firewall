@@ -40,8 +40,8 @@ class AdminController extends Controller
         $model = new FirewallRule();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->view->success(Yii::t('FirewallModule.base', 'Firewall rule created successfully'));
-            return $this->redirect(['index', 'id' => $model->id]);
+            $this->view->saved();
+            return $this->redirect(['index']);
         }
 
         return $this->renderAjax('create', [
@@ -57,8 +57,8 @@ class AdminController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->view->success(Yii::t('FirewallModule.base', 'Firewall rule updated successfully'));
-            return $this->redirect(['index', 'id' => $model->id]);
+            $this->view->saved();
+            return $this->redirect(['index']);
         }
 
         return $this->renderAjax('update', [
@@ -85,7 +85,7 @@ class AdminController extends Controller
     {
         $model = $this->findModel($id);
         $model->status = !$model->status;
-        
+
         if ($model->save()) {
             $this->view->success(Yii::t('FirewallModule.base', 'Firewall rule status toggled successfully'));
         } else {
@@ -141,7 +141,7 @@ class AdminController extends Controller
     public function actionClearIps()
     {
         if (!Yii::$app->user->isAdmin()) {
-            throw new ForbiddenHttpException('Access denied. Admin rights required.');
+            throw new \yii\web\ForbiddenHttpException('Access denied. Admin rights required.');
         }
 
         IPMonitor::clearAllIps();
@@ -158,7 +158,7 @@ class AdminController extends Controller
         $model = new FirewallSettingsForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->view->success(Yii::t('FirewallModule.base', 'Settings saved successfully'));
+            $this->view->saved();
             return $this->redirect(['index']);
         }
 
