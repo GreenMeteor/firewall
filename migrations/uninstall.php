@@ -13,10 +13,6 @@ class uninstall extends Migration
     {
         // Drop the tables
         $this->dropTable('firewall_log');
-
-        // Need to drop FKs first for the firewall_rule table
-        $this->dropForeignKey('fk-firewall_rule-updated_by', 'firewall_rule');
-        $this->dropForeignKey('fk-firewall_rule-created_by', 'firewall_rule');
         $this->dropTable('firewall_rule');
 
         // Remove module event listeners
