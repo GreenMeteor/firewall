@@ -7,53 +7,56 @@ use humhub\components\Migration;
  */
 class m000000_000001_firewall_rule extends Migration
 {
+    protected string $table = 'firewall_rule';
+
     public function safeUp()
     {
-        $this->createTable('firewall_rule', [
+        $this->safeCreateTable($this->table, [
             'id' => $this->primaryKey(),
             'ip_range' => $this->string()->notNull(),
             'action' => $this->string(10)->notNull(),
             'description' => $this->text(),
             'priority' => $this->integer()->defaultValue(100),
             'status' => $this->boolean()->defaultValue(true),
-            'created_at' => $this->dateTime(),
+            'created_at' => $this->timestampWithoutAutoUpdate(),
             'created_by' => $this->integer(),
-            'updated_at' => $this->dateTime(),
+            'updated_at' => $this->timestampWithoutAutoUpdate(),
             'updated_by' => $this->integer(),
         ]);
 
-        $this->createIndex('idx-firewall_rule-priority', 'firewall_rule', 'priority');
-        $this->createIndex('idx-firewall_rule-status', 'firewall_rule', 'status');
+        $this->safeCreateIndex('idx-firewall_rule-priority', $this->table, 'priority');
+        $this->safeCreateIndex('idx-firewall_rule-status', $this->table, 'status');
 
-        // Add some default rules
-        $this->insert('firewall_rule', [
+        $this->safeAddForeignKeyCreatedBy();
+        $this->safeAddForeignKeyUpdatedBy();
+
+        $this->insertSilent($this->table, [
             'ip_range' => '127.0.0.1',
             'action' => 'allow',
             'description' => 'Allow localhost',
             'priority' => 10,
             'status' => true,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
         ]);
 
-        $this->insert('firewall_rule', [
+        $this->insertSilent($this->table, [
             'ip_range' => '::1',
             'action' => 'allow',
             'description' => 'Allow localhost IPv6',
             'priority' => 10,
             'status' => true,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
         ]);
 
-        $this->insert('firewall_rule', [
+        $this->insertSilent($this->table, [
             'ip_range' => '192.168.0.0/16',
             'action' => 'allow',
             'description' => 'Allow local network',
             'priority' => 20,
             'status' => true,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
         ]);
+    }
+
+    public function safeDown()
+    {
+        $this->safeDropTable($this->table);
     }
 }
