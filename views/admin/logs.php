@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use humhub\helpers\Html;
 use yii\widgets\DetailView;
 use humhub\widgets\modal\Modal;
 use humhub\widgets\modal\ModalButton;
@@ -67,5 +67,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
+
 
 <?php Modal::endDialog(); ?>
