@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use humhub\helpers\Html;
 use humhub\widgets\bootstrap\Button;
 use yii\widgets\DetailView;
 use humhub\modules\ui\icon\widgets\Icon;
@@ -106,4 +106,5 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         <?php endif; ?>
     </div>
+
 </div>
