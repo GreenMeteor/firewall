@@ -1,7 +1,7 @@
 <?php
 
-use yii\helpers\Html;
-use humhub\widgets\ActiveForm;
+use humhub\helpers\Html;
+use humhub\widgets\form\ActiveForm;
 use humhub\modules\firewall\models\FirewallRule;
 
 /**
@@ -37,4 +37,5 @@ use humhub\modules\firewall\models\FirewallRule;
     </div>
 
     <?php ActiveForm::end(); ?>
+
 </div>
