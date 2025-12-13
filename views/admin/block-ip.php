@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Url;
-use yii\helpers\Html;
+use humhub\helpers\Html;
 use humhub\widgets\form\ActiveForm;
 use humhub\widgets\modal\Modal;
 use humhub\widgets\modal\ModalButton;
@@ -23,5 +23,6 @@ $this->title = Yii::t('FirewallModule.base', 'Block IP Address');
     <?= $form->field($model, 'description')->textarea(['rows' => 3]); ?>
     <?= $form->field($model, 'priority')->textInput(['type' => 'number']); ?>
     <?= $form->field($model, 'status')->checkbox(); ?>
+
 
 <?php Modal::endFormDialog(); ?>

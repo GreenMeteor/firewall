@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use humhub\helpers\Html;
 use humhub\widgets\bootstrap\Button;
 use yii\widgets\DetailView;
 use humhub\modules\ui\icon\widgets\Icon;
@@ -23,33 +23,40 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Yii::t('FirewallModule.base', '<strong>Manage</strong> Firewall Rules'); ?>
     </div>
     <div class="panel-body">
+
         <?= Html::a(Icon::get('plus') . 'Create Rule', ['create'], [
+            'id' => 'firewall-create-btn',
             'class' => 'btn btn-success',
             'data-bs-toggle' => 'modal',
             'data-bs-target' => '#globalModal'
         ]) ?>
 
         <?= Html::a(Icon::get('cogs') . 'Settings', ['settings'], [
+            'id' => 'firewall-settings-btn',
             'class' => 'btn btn-primary',
             'data-bs-toggle' => 'modal',
             'data-bs-target' => '#globalModal'
         ]) ?>
 
         <?= Html::a(Icon::get('list') . 'Logs', ['logs'], [
+            'id' => 'firewall-logs-btn',
             'class' => 'btn btn-danger',
             'data-bs-toggle' => 'modal',
             'data-bs-target' => '#globalModal'
         ]) ?>
+
         <hr>
 
-        <?= IPMonitor::widget(); ?>
+        <div id="firewall-ip-actions">
+            <?= IPMonitor::widget(); ?>
+        </div>
 
         <?php if ($dataProvider->getCount() == 0): ?>
             <div class="alert alert-info text-center">
                 <strong><?= Yii::t('FirewallModule.base', 'No firewall rules have been added yet.'); ?></strong>
             </div>
         <?php else: ?>
-            <div class="row">
+            <div id="firewall-rules-panel" class="row">
                 <?php foreach ($dataProvider->getModels() as $model): ?>
                     <div class="col-md-4">
                         <div class="firewall-rule-card">
@@ -94,7 +101,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
 
                             <div class="firewall-rule-footer">
-                                <?= Html::a(Icon::get('pencil') . 'Edit', ['update', 'id' => $model->id], ['class' => 'btn btn-primary', 'data-bs-toggle' => 'modal', 'data-bs-target' => '#globalModal']) ?>
+                                <?= Html::a(Icon::get('pencil') . 'Edit', ['update', 'id' => $model->id], [
+                                    'class' => 'btn btn-primary',
+                                    'data-bs-toggle' => 'modal',
+                                    'data-bs-target' => '#globalModal'
+                                ]) ?>
                                 <?= Button::danger(Yii::t('FirewallModule.base', 'Delete'))
                                     ->link(['delete', 'id' => $model->id])
                                     ->icon('trash')
