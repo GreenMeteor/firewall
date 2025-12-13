@@ -68,6 +68,13 @@ class Module extends BaseModule
         if ($this->enableFirewall) {
             Yii::$app->on(\yii\web\Application::EVENT_BEFORE_REQUEST, [$this, 'checkFirewall']);
         }
+
+        if ($tourModule = Yii::$app->getModule('tour')) {
+            $tourFile = __DIR__ . '/tours/firewall-admin.php';
+            if (file_exists($tourFile) && !in_array($tourFile, $tourModule->tourConfigFiles)) {
+                $tourModule->tourConfigFiles[] = $tourFile;
+            }
+        }
     }
 
     /**
@@ -113,7 +120,7 @@ class Module extends BaseModule
     /**
      * Checks if the current IP is allowed according to firewall rules
      * 
-     * @param string $ip IP address to check (defaults to current user IP)
+     * @param string|null $ip IP address to check (defaults to current user IP)
      * @return bool whether access is allowed
      */
     public function checkAccess($ip = null)
@@ -168,7 +175,6 @@ class Module extends BaseModule
         }
 
         $ip = Yii::$app->request->userIP;
-
         $currentRoute = $this->getCurrentRoute();
 
         if ($currentRoute !== null) {
@@ -203,12 +209,10 @@ class Module extends BaseModule
 
         if (!$allowed) {
             Yii::$app->response->statusCode = 403;
-            
             Yii::$app->response->content = Yii::$app->view->render($this->denyView, [
                 'ip' => $ip,
                 'route' => $currentRoute
             ]);
-            
             Yii::$app->response->send();
             Yii::$app->end();
         }
