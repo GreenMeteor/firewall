@@ -1,8 +1,5 @@
 # Firewall Core Module for HumHub
 
-> [!IMPORTANT]
-> 🚧 **Work in Progress** 🚧
-
 ## Overview
 The **Firewall** core module for HumHub enhances security by providing advanced access control mechanisms. It allows administrators to define rules for restricting or allowing access to the platform based on various conditions.
 
